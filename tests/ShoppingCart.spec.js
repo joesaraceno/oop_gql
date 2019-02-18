@@ -1,26 +1,32 @@
 import test from 'ava'
-import ShoppingCart from '../ShoppingCart';
-import BookItem from '../BookItem';
+import ShoppingCart from '../controllers/ShoppingCart';
 
 test('should throw when doing bad stuff', t => {
   const cart = new ShoppingCart();
+  const foo = {
+
+  };
+
+  const bar = {
+
+  };
+  
   t.throws(() => {
-    cart.addItem(undefined);
+    cart.add(undefined);
   })
 })
 
 test('should not throw when not doing bad stuff', t => {
   const cart = new ShoppingCart();
-  const book = new BookItem();
-  t.notThrows(() => {
-    cart.addItem(book);
-    cart.ItemCount === 1;
-    cart.removeItem
-  })
+  const foo = {
 
-  t.notThrows(() => {
-    cart.addItem(book);
-  })
+  };
 
-  
+  const bar = {
+
+  };
+  t.notThrows(() => {
+    cart.addItem(foo);
+
+  })
 })

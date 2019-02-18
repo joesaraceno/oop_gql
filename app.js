@@ -69,6 +69,6 @@ app.post('/register' , (req, res) => {
   return res.send({
     message: `new user created`
   })
-})
+});
 
 module.exports = app
