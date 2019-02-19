@@ -3,6 +3,8 @@ const express = require('express')
 const _ = require('lodash')
 const graphqlHTTP = require('express-graphql')
 const { buildSchema } = require('graphql')
+const BooksList = require('./data/books');
+const books = new BooksList();
 
 const gqlPort = 4001;
 
@@ -14,16 +16,31 @@ app.use(parser.urlencoded({ extended: true }))
 
 // graphql initialization of root schema
 const schema = buildSchema(`
+  "A book."
+  type Book {
+    _id: ID!
+    _isbn: Int!
+    _title: String!
+    _author: String!
+    _price: Float
+
+  }
   "The root of it all"
   type Query {
-    "Returns a greeting"
-    hello: String
+    "Returns a list of Books"
+    books: [Book]
+    
+    "Returns a single book matching an ID."
+    book(id: Int!): Book
   }
 `)
 
 const root = {
-  hello: () => {
-    return 'Hello World!';
+  book: ({id}) => {
+    return books.getOne(id);
+  },
+  books: () => {
+    return books.findAll()
   }
 }
 
