@@ -1,8 +1,17 @@
 const parser = require('body-parser')
 const express = require('express')
-const _ = require('lodash')
 const graphqlHTTP = require('express-graphql')
-const { buildSchema } = require('graphql')
+
+const {
+  GraphQLObjectType,
+  GraphQLNonNull,
+  GraphQLInt,
+  GraphQLString,
+  GraphQLList,
+  GraphQLSchema,
+  GraphQLFloat,
+} = require('graphql');
+
 const BooksList = require('./data/books');
 const books = new BooksList();
 
@@ -14,39 +23,60 @@ app.use(parser.json())
 
 app.use(parser.urlencoded({ extended: true }))
 
-// graphql initialization of root schema
-const schema = buildSchema(`
-  "A book."
-  type Book {
-    _id: ID!
-    _isbn: Int!
-    _title: String!
-    _author: String!
-    _price: Float
+// use custom gql types
+const BookType = new GraphQLObjectType({
+  name: 'Book',
+  fields: {
+    _id: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    isbn: {
+      type: new GraphQLNonNull(GraphQLInt),
+    },
+    title: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    author: {
+      type: new GraphQLNonNull(GraphQLString),
+    },
+    price: {
+      type: new GraphQLNonNull(GraphQLFloat),
+    }
+  }
+})
 
-  }
-  "The root of it all"
-  type Query {
-    "Returns a list of Books"
-    books: [Book]
-    
-    "Returns a single book matching an ID."
-    book(id: Int!): Book
-  }
-`)
+const QueryType = new GraphQLObjectType({
+  name: 'Query',
+  fields: {
+    books: {
+      type: new GraphQLList(BookType),
+      resolve: () => {
+        return books.findAll();
+      }
+    },
 
-const root = {
-  book: ({id}) => {
-    return books.getOne(id);
-  },
-  books: () => {
-    return books.findAll()
+
+    book: {
+      type: BookType,
+      args: {
+        id: {
+          type: new GraphQLNonNull(GraphQLInt)
+        }
+      },
+      resolve: (user, args) => {
+        return books.getOne(args.id)
+      }
+    }
   }
-}
+});
+
+const schema = new GraphQLSchema({
+  query: QueryType,
+});
+
 
 app.use('/graphql', graphqlHTTP({
   schema,
-  rootValue: root,
   graphiql: true
 }));
 

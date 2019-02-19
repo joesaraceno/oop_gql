@@ -29,8 +29,8 @@ module.exports = class BooksList {
     }));
   }
 
-  getOne(_id) {
-    const matches = books.filter(book => book._id === _id);
+  getOne(id) {
+    const matches = books.filter(book => book._id === id);
     
     if (matches && matches.length > 0) {
       return matches[0];
