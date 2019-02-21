@@ -74,7 +74,7 @@ const QueryType = new GraphQLObjectType({
   }
 });
 
-// make schema a collection of all of the subschema, and import it once here
+// TODO: make schema a collection of all of the subschema, and import it once here
 const schema = new GraphQLSchema({
   query: QueryType,
 });
@@ -89,6 +89,8 @@ app.listen(gqlPort)
 console.log(`Gql API Server Running on ${gqlPort}`);
 
 // restful routes
+// TODO: support rest and gql depending on developer
+// make it abstract
 app.get('/status', (req, res) => {
   res.send({
     status: 'ok'
