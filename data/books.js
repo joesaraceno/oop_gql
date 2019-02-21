@@ -23,6 +23,9 @@ const books = [
   })
 ];
 
+// TODO: make this usesome boilerplate that is abstracted away for each model
+// going to have to build schema objects essentialy
+// they should match the types/interfaces for the front end
 module.exports = class BooksList {
   findAll() {
     return books.map(book => ({
