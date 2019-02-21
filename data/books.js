@@ -1,3 +1,4 @@
+// TODO: require both of these in some map file that gets imported to gql?
 const BookItem = require('../controllers/BookItem');
 
 

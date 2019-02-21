@@ -7,6 +7,7 @@ module.exports = class ShoppingCart {
     this._items = [];
   }
 
+  // TODO: break these off into the abstracted database queries?
   addItem(item) {
     if (typeof item === 'undefined' || item == null) {
       throw new Error('can\'t add empty Book')

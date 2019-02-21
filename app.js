@@ -12,6 +12,8 @@ const {
   GraphQLFloat,
 } = require('graphql');
 
+
+// TODO: replace this with db ref
 const BooksList = require('./data/books');
 const books = new BooksList();
 
@@ -23,6 +25,7 @@ app.use(parser.json())
 
 app.use(parser.urlencoded({ extended: true }))
 
+// TODO: put this in a <Modelname>.gql file?
 // use custom gql types
 const BookType = new GraphQLObjectType({
   name: 'Book',
@@ -45,6 +48,7 @@ const BookType = new GraphQLObjectType({
   }
 })
 
+// same as above
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
@@ -70,11 +74,10 @@ const QueryType = new GraphQLObjectType({
   }
 });
 
+// make schema a collection of all of the subschema, and import it once here
 const schema = new GraphQLSchema({
   query: QueryType,
 });
-
-
 app.use('/graphql', graphqlHTTP({
   schema,
   graphiql: true

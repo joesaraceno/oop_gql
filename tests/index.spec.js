@@ -2,6 +2,7 @@ import test from 'ava'
 const request = require('supertest')
 const app = require('./../app')
 
+// TODO: make these graphql queries instead of restful route checks?
 test('/status', async t => { 
   const response = await request(app)
   .get('/status')

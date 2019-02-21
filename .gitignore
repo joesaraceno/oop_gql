@@ -5,4 +5,4 @@ node_modules
 yarn-error.log
 
 # dev specific stuff
-.vscode/launch.json
+.vscode
